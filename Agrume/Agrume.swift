@@ -426,10 +426,16 @@ extension Agrume: UICollectionViewDataSource {
                                                   for: indexPath) as! AgrumeCell
     if let images = images {
       cell.image = images[indexPath.row]
+      let cnt = !images.isEmpty ? images.count : imageUrls.count
+      if cnt > 1 {
+        cell.dismissHorizontal = true
+      }
 		} else if let dataSource = dataSource {
 			spinner.alpha = 1
 			let index = indexPath.row
-			
+      if dataSource.numberOfImages > 1 {
+        cell.dismissHorizontal = true
+      }
       dataSource.image(forIndex: index) { [weak self] image in
         DispatchQueue.main.async {
           if collectionView.indexPathsForVisibleItems.contains(indexPath) {

@@ -44,7 +44,8 @@ final class AgrumeCell: UICollectionViewCell {
     }
   }
   weak var delegate: AgrumeCellDelegate?
-
+  var dismissHorizontal: Bool = false
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
 
@@ -114,7 +115,7 @@ extension AgrumeCell: UIGestureRecognizerDelegate {
   override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     if let pan = gestureRecognizer as? UIPanGestureRecognizer, notZoomed() {
       let velocity = pan.velocity(in: scrollView)
-      return abs(velocity.y) > abs(velocity.x)
+      return dismissHorizontal || (abs(velocity.y) > abs(velocity.x))
     } else if let _ = gestureRecognizer as? UISwipeGestureRecognizer, notZoomed() {
       return false
     } else if let tap = gestureRecognizer as? UITapGestureRecognizer, tap == singleTapGesture && !notZoomed() {
